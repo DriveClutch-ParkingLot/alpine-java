@@ -120,6 +120,7 @@ RUN apk --update add \
     chown -R app:app /app
 
 ENV LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/amd64/jli"
+ENV PATH="${JAVA_HOME}/bin:$PATH"
 
 USER app
 WORKDIR /app

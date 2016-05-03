@@ -19,7 +19,7 @@ ENV JDL_TYPE "server-jre"
 ENV JDL_VERSION "8"
 ENV JDL_UPDATE "92"
 ENV JDL_BUILD "14"
-ENV OPENSSL_VER "1.0.2g"
+ENV OPENSSL_VER "1.0.2h"
 ENV GLIBC_VERSION "2.23-r1"
 
 ###################################################

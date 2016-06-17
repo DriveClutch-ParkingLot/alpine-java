@@ -33,7 +33,6 @@ ENV GLIBC_VERSION "2.23-r1"
 # Java SE JDK http://download.oracle.com/otn/java/jdk/7u80-b15/jdk-7u80-linux-i586.tar.gz
 # Java SE JRE http://download.oracle.com/otn/java/jdk/7u80-b15/jre-7u80-linux-i586.tar.gz
 # Server SE JRE http://download.oracle.com/otn-pub/java/jdk/8u92-b14/server-jre-8u92-linux-x64.tar.gz
-#
 
 ENV JAVA_HOME "/usr/lib/jvm/java-${JDL_VERSION}-oracle"
 
@@ -43,7 +42,12 @@ RUN apk --update add \
       curl \
       ca-certificates \
       perl \
-      alpine-sdk && \
+      alpine-sdk \
+      tzdata && \
+    cp /usr/share/zoneinfo/America/New_York /etc/localtime && \
+    echo "America/New_York" >  /etc/timezone && \
+    apk del tzdata && \
+    rm -rf /var/cache/apk/* && \
     curl -Ls https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk > /tmp/glibc-${GLIBC_VERSION}.apk && \
     apk add --allow-untrusted /tmp/glibc-${GLIBC_VERSION}.apk && \
     curl -Ls https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk > /tmp/glibc-bin-${GLIBC_VERSION}.apk && \

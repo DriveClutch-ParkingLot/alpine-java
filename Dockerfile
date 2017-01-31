@@ -7,7 +7,7 @@
 #   removed to save space.
 #
 #
-FROM alpine:3.3
+FROM alpine:3.5
 MAINTAINER David Hallum <david@driveclutch.com>
 
 # The variables below control what style and version of
@@ -17,10 +17,10 @@ MAINTAINER David Hallum <david@driveclutch.com>
 #
 ENV JDL_TYPE "server-jre"
 ENV JDL_VERSION "8"
-ENV JDL_UPDATE "92"
-ENV JDL_BUILD "14"
-ENV OPENSSL_VER "1.0.2h"
-ENV GLIBC_VERSION "2.23-r1"
+ENV JDL_UPDATE "121"
+ENV JDL_BUILD "13"
+ENV OPENSSL_VER "1.0.2k"
+ENV GLIBC_VERSION "2.23-r3"
 
 ###################################################
 #  Use caution adjusting anything below this line #

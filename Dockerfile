@@ -19,6 +19,7 @@ ENV JDL_TYPE "server-jre"
 ENV JDL_VERSION "8"
 ENV JDL_UPDATE "121"
 ENV JDL_BUILD "13"
+ENV JDL_SIG "e9e7ea248e2c4826b92b3f075a80e441"
 ENV OPENSSL_VER "1.0.2k"
 ENV GLIBC_VERSION "2.23-r3"
 
@@ -48,13 +49,17 @@ RUN apk --update add \
     echo "America/New_York" >  /etc/timezone && \
     apk del tzdata && \
     rm -rf /var/cache/apk/* && \
-    curl -Ls https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk > /tmp/glibc-${GLIBC_VERSION}.apk && \
-    apk add --allow-untrusted /tmp/glibc-${GLIBC_VERSION}.apk && \
-    curl -Ls https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk > /tmp/glibc-bin-${GLIBC_VERSION}.apk && \
-    apk add --allow-untrusted /tmp/glibc-bin-${GLIBC_VERSION}.apk && \
+    echo "Download/install GLIBC ${GLIBC_VERSION}" && \
+    curl -Ls https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub > /etc/apk/keys/sgerrand.rsa.pub && \
+    curl -Ls https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk > /tmp/glibc-${GLIBC_VERSION}.apk && \
+    curl -Ls https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk > /tmp/glibc-bin-${GLIBC_VERSION}.apk && \
+    apk add /tmp/glibc-${GLIBC_VERSION}.apk /tmp/glibc-bin-${GLIBC_VERSION}.apk && \
     /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc/usr/lib && \
-    curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie" -o /tmp/java.tar.gz \
-         http://download.oracle.com/otn-pub/java/jdk/"${JDL_VERSION}"u"${JDL_UPDATE}"-b"${JDL_BUILD}"/jdk-"${JDL_VERSION}"u"${JDL_UPDATE}"-linux-x64.tar.gz && \
+    echo "Downloading JAVA" && \
+    curl --silent --location --retry 3 \
+         --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
+         -o /tmp/java.tar.gz \
+         http://download.oracle.com/otn-pub/java/jdk/"${JDL_VERSION}"u"${JDL_UPDATE}"-b"${JDL_BUILD}"/"${JDL_SIG}"/jdk-"${JDL_VERSION}"u"${JDL_UPDATE}"-linux-x64.tar.gz && \
     gunzip /tmp/java.tar.gz && \
     tar x -C /tmp/ -f /tmp/java.tar && \
     mkdir -p /usr/lib/jvm && \

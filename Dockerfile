@@ -8,7 +8,6 @@
 #
 #
 FROM alpine:3.5
-MAINTAINER David Hallum <david@driveclutch.com>
 
 # The variables below control what style and version of
 #   Oracle Java is install
@@ -17,10 +16,10 @@ MAINTAINER David Hallum <david@driveclutch.com>
 #
 ENV JDL_TYPE "server-jre"
 ENV JDL_VERSION "8"
-ENV JDL_UPDATE "121"
-ENV JDL_BUILD "13"
-ENV JDL_SIG "e9e7ea248e2c4826b92b3f075a80e441"
-ENV OPENSSL_VER "1.0.2k"
+ENV JDL_UPDATE "151"
+ENV JDL_BUILD "12"
+ENV JDL_SIG "e758a0de34e24606bca991d704f6dcbf"
+ENV OPENSSL_VER "1.0.2n"
 ENV GLIBC_VERSION "2.23-r3"
 
 ###################################################

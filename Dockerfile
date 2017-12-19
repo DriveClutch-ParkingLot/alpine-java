@@ -7,7 +7,7 @@
 #   removed to save space.
 #
 #
-FROM alpine:3.5
+FROM alpine:3.7
 
 # The variables below control what style and version of
 #   Oracle Java is install

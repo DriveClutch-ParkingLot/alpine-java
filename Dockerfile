@@ -20,6 +20,7 @@ ENV JDL_UPDATE "172"
 ENV JDL_BUILD "11"
 ENV JDL_SIG "a58eab1ec242421181065cdc37240b08"
 ENV GLIBC_VERSION "2.27-r0"
+ENV PROMETHEUS_JMX_AGENT_FILE "/app/jmx/jmx_prometheus_javaagent-0.3.1.jar"
 
 ###################################################
 #  Use caution adjusting anything below this line #

@@ -7,7 +7,7 @@
 #   removed to save space.
 #
 #
-FROM alpine:3.7
+FROM alpine:3.8
 
 # The variables below control what style and version of
 #   Oracle Java is install
@@ -16,11 +16,10 @@ FROM alpine:3.7
 #
 ENV JDL_TYPE "server-jre"
 ENV JDL_VERSION "8"
-ENV JDL_UPDATE "151"
-ENV JDL_BUILD "12"
-ENV JDL_SIG "e758a0de34e24606bca991d704f6dcbf"
-ENV OPENSSL_VER "1.0.2n"
-ENV GLIBC_VERSION "2.23-r3"
+ENV JDL_UPDATE "172"
+ENV JDL_BUILD "11"
+ENV JDL_SIG "a58eab1ec242421181065cdc37240b08"
+ENV GLIBC_VERSION "2.27-r0"
 
 ###################################################
 #  Use caution adjusting anything below this line #
@@ -41,8 +40,7 @@ RUN apk --update add \
       bash \
       curl \
       ca-certificates \
-      perl \
-      alpine-sdk \
+      openssl \
       tzdata && \
     cp /usr/share/zoneinfo/America/New_York /etc/localtime && \
     echo "America/New_York" >  /etc/timezone && \
@@ -63,14 +61,6 @@ RUN apk --update add \
     tar x -C /tmp/ -f /tmp/java.tar && \
     mkdir -p /usr/lib/jvm && \
     mv /tmp/jdk1.${JDL_VERSION}.0_${JDL_UPDATE} "${JAVA_HOME}" && \
-    curl -jksSL https://www.openssl.org/source/openssl-${OPENSSL_VER}.tar.gz \
-      | gunzip -c \
-      | tar x -C /tmp && \
-    cd /tmp/openssl-${OPENSSL_VER} && \
-      ./config --prefix=/usr && \
-      make depend && \
-      make && \
-      make install && \
     # Clean-up and slim down the installed files
     find ${JAVA_HOME} -maxdepth 1 -mindepth 1 | egrep -v 'jre|bin' | xargs rm -rf && \
     apk del curl alpine-sdk perl && \
@@ -129,6 +119,8 @@ RUN apk --update add \
 
 ENV LD_LIBRARY_PATH="${JAVA_HOME}/jre/lib/amd64/jli"
 ENV PATH="${JAVA_HOME}/bin:$PATH"
+
+COPY jmx /app/jmx/
 
 USER app
 WORKDIR /app

@@ -63,49 +63,8 @@ RUN apk --update add \
     mkdir -p /usr/lib/jvm && \
     mv /tmp/jdk1.${JDL_VERSION}.0_${JDL_UPDATE} "${JAVA_HOME}" && \
     # Clean-up and slim down the installed files
-    find ${JAVA_HOME} -maxdepth 1 -mindepth 1 | egrep -v 'jre|bin' | xargs rm -rf && \
     apk del curl alpine-sdk perl && \
-    rm -rf \
-      ${JAVA_HOME}/jre/plugin \
-      ${JAVA_HOME}/jre/bin/javaws \
-      ${JAVA_HOME}/jre/bin/jjs \
-      ${JAVA_HOME}/jre/bin/keytool \
-      ${JAVA_HOME}/jre/bin/orbd \
-      ${JAVA_HOME}/jre/bin/pack200 \
-      ${JAVA_HOME}/jre/bin/policytool \
-      ${JAVA_HOME}/jre/bin/rmid \
-      ${JAVA_HOME}/jre/bin/rmiregistry \
-      ${JAVA_HOME}/jre/bin/servertool \
-      ${JAVA_HOME}/jre/bin/tnameserv \
-      ${JAVA_HOME}/jre/bin/unpack200 \
-      ${JAVA_HOME}/bin/javaws \
-      ${JAVA_HOME}/bin/jjs \
-      ${JAVA_HOME}/bin/keytool \
-      ${JAVA_HOME}/bin/orbd \
-      ${JAVA_HOME}/bin/pack200 \
-      ${JAVA_HOME}/bin/policytool \
-      ${JAVA_HOME}/bin/rmid \
-      ${JAVA_HOME}/bin/rmiregistry \
-      ${JAVA_HOME}/bin/servertool \
-      ${JAVA_HOME}/bin/tnameserv \
-      ${JAVA_HOME}/bin/unpack200 \
-      ${JAVA_HOME}/jre/lib/javaws.jar \
-      ${JAVA_HOME}/jre/lib/deploy* \
-      ${JAVA_HOME}/jre/lib/desktop \
-      ${JAVA_HOME}/jre/lib/*javafx* \
-      ${JAVA_HOME}/jre/lib/*jfx* \
-      ${JAVA_HOME}/jre/lib/amd64/libdecora_sse.so \
-      ${JAVA_HOME}/jre/lib/amd64/libprism_*.so \
-      ${JAVA_HOME}/jre/lib/amd64/libfxplugins.so \
-      ${JAVA_HOME}/jre/lib/amd64/libglass.so \
-      ${JAVA_HOME}/jre/lib/amd64/libgstreamer-lite.so \
-      ${JAVA_HOME}/jre/lib/amd64/libjavafx*.so \
-      ${JAVA_HOME}/jre/lib/amd64/libjfx*.so \
-      ${JAVA_HOME}/jre/lib/ext/jfxrt.jar \
-      ${JAVA_HOME}/jre/lib/ext/nashorn.jar \
-      ${JAVA_HOME}/jre/lib/oblique-fonts \
-      ${JAVA_HOME}/jre/lib/plugin.jar \
-      /var/cache/apk/* \
+    rm /var/cache/apk/* \
       /tmp/* && \
     # Update the JVM ttl to 0s (NO internal caching! respect the DNS TTL settings)
     grep -v 'networkaddress.cache.ttl' $JAVA_HOME/jre/lib/security/java.security | grep -v 'networkaddress.cache.negative.ttl' > $JAVA_HOME/jre/lib/security/java.security.tmp && \

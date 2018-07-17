@@ -5,6 +5,15 @@ FROM openjdk:8u171-jre-slim
 
 ENV PROMETHEUS_JMX_AGENT_FILE "/app/jmx/jmx_prometheus_javaagent-0.3.1.jar"
 
+# JVM Settings used by a majority of the apps
+ENV CL_DEFAULT_JVM -javaagent:${PROMETHEUS_JMX_AGENT_FILE}=9001:/app/jmx/config.yaml \
+ -XX:+UnlockExperimentalVMOptions \
+ -XX:+UseCGroupMemoryLimitForHeap \
+ -XX:MaxRAMFraction=2 \
+ -XshowSettings:vm \
+ -XX:+ExitOnOutOfMemoryError \
+ -server
+
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     # Add curl

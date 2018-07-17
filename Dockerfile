@@ -10,7 +10,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     # Add curl
     apt-get update && apt-get install -y --no-install-recommends \
       curl \
-      && rm -rf /var/lib/apt/lists/* \
+      && rm -rf /var/lib/apt/lists/* && \
     # Update the JVM ttl to 0s (NO internal caching! respect the DNS TTL settings)
     grep -v 'networkaddress.cache.ttl' /etc/java-8-openjdk/security/java.security | grep -v 'networkaddress.cache.negative.ttl' > /etc/java-8-openjdk/security/java.security.tmp && \
       echo 'networkaddress.cache.ttl=0' >> /etc/java-8-openjdk/security/java.security.tmp && \

@@ -32,10 +32,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
       curl \
       && rm -rf /var/lib/apt/lists/* && \
     # Update the JVM ttl to 0s (NO internal caching! respect the DNS TTL settings)
-    grep -v 'networkaddress.cache.ttl' /etc/java-8-openjdk/security/java.security | grep -v 'networkaddress.cache.negative.ttl' > /etc/java-8-openjdk/security/java.security.tmp && \
-      echo 'networkaddress.cache.ttl=0' >> /etc/java-8-openjdk/security/java.security.tmp && \
-      echo 'networkaddress.cache.negative.ttl=0' >> /etc/java-8-openjdk/security/java.security.tmp && \
-      mv /etc/java-8-openjdk/security/java.security.tmp /etc/java-8-openjdk/security/java.security && \
+    grep -v 'networkaddress.cache.ttl' /usr/local/openjdk-8/jre/lib/security/java.security | grep -v 'networkaddress.cache.negative.ttl' > /usr/local/openjdk-8/jre/lib/security/java.security.tmp && \
+      echo 'networkaddress.cache.ttl=0' >> /usr/local/openjdk-8/jre/lib/security/java.security.tmp && \
+      echo 'networkaddress.cache.negative.ttl=0' >> /usr/local/openjdk-8/jre/lib/security/java.security.tmp && \
+      mv /usr/local/openjdk-8/jre/lib/security/java.security.tmp /usr/local/openjdk-8/jre/lib/security/java.security && \
     # App Service User
     adduser --gecos "App Service Account" --shell /usr/sbin/nologin --disabled-login --home /app app && rm -f /app/.bash_logout /app/.bashrc /app/.profile
 

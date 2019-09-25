@@ -1,7 +1,7 @@
 #
 # Base layer for apps using a JVM
 #
-FROM openjdk:8u171-jre-slim
+FROM openjdk:8u222-jdk-slim
 
 ENV PROMETHEUS_JMX_AGENT_FILE "/app/jmx/jmx_prometheus_javaagent-0.3.1.jar"
 

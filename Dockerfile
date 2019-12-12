@@ -48,10 +48,11 @@ RUN apk --update add \
     apk add --allow-untrusted /tmp/glibc-${GLIBC_VERSION}.apk && \
     curl -Ls https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk > /tmp/glibc-bin-${GLIBC_VERSION}.apk && \
     apk add --allow-untrusted /tmp/glibc-bin-${GLIBC_VERSION}.apk && \
-    /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc/usr/lib && \
-    curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie" -o /tmp/java.tar.gz \
-         http://download.oracle.com/otn-pub/java/jdk/"${JDL_VERSION}"u"${JDL_UPDATE}"-b"${JDL_BUILD}"/jdk-"${JDL_VERSION}"u"${JDL_UPDATE}"-linux-x64.tar.gz && \
-    gunzip /tmp/java.tar.gz && \
+    /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc/usr/lib 
+
+RUN curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie" -o /tmp/java.tar.gz \
+         http://download.oracle.com/otn-pub/java/jdk/"${JDL_VERSION}"u"${JDL_UPDATE}"-b"${JDL_BUILD}"/jdk-"${JDL_VERSION}"u"${JDL_UPDATE}"-linux-x64.tar.gz 
+RUN    gunzip /tmp/java.tar.gz && \
     tar x -C /tmp/ -f /tmp/java.tar && \
     mkdir -p /usr/lib/jvm && \
     mv /tmp/jdk1.${JDL_VERSION}.0_${JDL_UPDATE} "${JAVA_HOME}" && \
@@ -70,7 +71,6 @@ RUN apk --update add \
       ${JAVA_HOME}/jre/plugin \
       ${JAVA_HOME}/jre/bin/javaws \
       ${JAVA_HOME}/jre/bin/jjs \
-      ${JAVA_HOME}/jre/bin/keytool \
       ${JAVA_HOME}/jre/bin/orbd \
       ${JAVA_HOME}/jre/bin/pack200 \
       ${JAVA_HOME}/jre/bin/policytool \
@@ -124,3 +124,7 @@ ENV PATH="${JAVA_HOME}/bin:$PATH"
 
 USER app
 WORKDIR /app
+
+COPY rds-ca-2019-root.der /rds-ca-2019-root.der
+RUN echo "yes" | keytool -import -alias rds-root-2019 -keystore /rds-tls-clientkeystore -file /rds-ca-2019-root.der
+

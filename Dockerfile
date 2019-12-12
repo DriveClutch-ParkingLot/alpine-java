@@ -41,5 +41,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
 
 COPY jmx /app/jmx/
 
+COPY rds-ca-2019-root.der /rds-ca-2019-root.der
+
+RUN  echo "yes" | keytool -import -alias rds-root-2019 -storepass changeit -keystore /usr/local/openjdk-8/jre/lib/security/cacerts -file /rds-ca-2019-root.der
+
 USER app
 WORKDIR /app
